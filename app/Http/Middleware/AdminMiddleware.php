@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Admin;
 use Symfony\Component\HttpFoundation\Response;
 
 class AdminMiddleware
@@ -14,11 +15,16 @@ class AdminMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
-        if (!Auth::guard('admin')->check()) {
-           
-            return "only admin can login here";
+        $token = $request->header('Authorization');
+        if (!$token) {
+            return response()->json(['error' => 'Token not provided'], 401);
+        }
+        $token = str_replace('Bearer ', '', $token);
+        $admin = Admin::where('token', $token)->first();
+        if (!$admin) {
+            return response()->json(['error' => 'Invalid token'], 401);
         }
         return $next($request);
     }

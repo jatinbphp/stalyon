@@ -18,16 +18,23 @@ class AuthorizationController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:admins,email',
             'password' => 'required|confirmed|min:2',
+            'country_code' => 'required',
+            'phone' => 'required|numeric',
         ]);
     
         if ($validator->fails()) {
             return response()->json($validator->errors()->all(), 422);
         }
-
         $input = $request->all();
         $input['password'] = Hash::make($request->password);
         $input['token'] = "";
-
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('images/admin'), $imageName);
+            $input['image'] = 'images/admin/'.$imageName; 
+        }
+        // return $input;
         if (!empty($input) || isset($input)) {
             Admin::create($input);
             $data['status'] = true;
@@ -57,7 +64,7 @@ class AuthorizationController extends Controller
             Admin::where('id', $admin->id)->update(['token' => $token]);
             $data['status'] = true;
             $data['message'] = "Admin logged in successfully";
-            $data['token'] = $token; 
+            $data['bearer_token'] = $token; 
         } else {
             $data['status']= false;
             $data['message']= "Invalid Credentials.Please Enter Correct Email and Password";
@@ -66,5 +73,25 @@ class AuthorizationController extends Controller
         return response()->json($data);
 
     }
+
+    public function adminLogout(Request $request)
+    {
+        Auth::guard('admin')->logout(); 
+        $data['status']= true;
+        $data['message']= "Admin Log Out Successfully";
+        return response()->json($data);
+    }
+
+    public function forgotPassword(Request $request)
+    {
+        // return "test";
+        
+    }
+
+    public function test(Request $request)
+    {
+        return "test";
+    }
+
 
 }

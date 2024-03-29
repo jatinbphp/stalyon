@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Admin extends Authenticatable implements JWTSubject
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
 
     protected $guard = "admin";
 
@@ -18,7 +19,10 @@ class Admin extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
-        'token'
+        'token',
+        'country_code',
+        'phone',
+        'image'
     ];
 
     /**
