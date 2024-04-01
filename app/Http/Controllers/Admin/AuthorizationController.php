@@ -71,7 +71,6 @@ class AuthorizationController extends Controller
             return response()->json($data,401);
         }
         return response()->json($data);
-
     }
 
     public function adminLogout(Request $request)
@@ -81,17 +80,4 @@ class AuthorizationController extends Controller
         $data['message']= "Admin Log Out Successfully";
         return response()->json($data);
     }
-
-    public function forgotPassword(Request $request)
-    {
-        // return "test";
-        
-    }
-
-    public function test(Request $request)
-    {
-        return "test";
-    }
-
-
 }
