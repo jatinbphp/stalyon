@@ -16,10 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('country_code');
-            $table->string('phone');
-            $table->string('token',1000);
             $table->string('image')->nullable();
+            $table->string('token',1000)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

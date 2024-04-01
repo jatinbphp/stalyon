@@ -44,6 +44,10 @@ return [
             'driver' => 'jwt',
             'provider' => 'admins',
         ],
+        'admin_web' => [
+            'driver' => 'session',
+            'provider' => 'admins_web',
+        ],
         'agent' => [
             'driver' => 'jwt',
             'provider' => 'agents',
@@ -78,10 +82,17 @@ return [
             'model' => App\Models\Admin::class,
         ],
 
+        'admins_web' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],
+
         'agents' => [
             'driver' => 'eloquent',
             'model' => App\Models\Agent::class,
         ],
+        
+        
     ],
 
     /*
@@ -118,6 +129,12 @@ return [
         ],
         'agents' => [
             'provider' => 'admins',
+            'table' => 'password_resets',
+            'expire' => 60,
+        ],
+
+        'admins_web' => [
+            'provider' => 'admins_web',
             'table' => 'password_resets',
             'expire' => 60,
         ],

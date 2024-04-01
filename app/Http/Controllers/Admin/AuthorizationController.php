@@ -18,8 +18,6 @@ class AuthorizationController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:admins,email',
             'password' => 'required|confirmed|min:2',
-            'country_code' => 'required',
-            'phone' => 'required|numeric',
         ]);
     
         if ($validator->fails()) {
