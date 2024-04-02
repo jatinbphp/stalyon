@@ -12,7 +12,7 @@ class AgentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $data['menu']= "Agent";
         if ($request->ajax()) {
@@ -32,7 +32,9 @@ class AgentController extends Controller
      */
     public function create()
     {
-        //
+        $data['menu'] = 'Agents';
+        return view("admin.user.create",$data);
+
     }
 
     /**
@@ -40,7 +42,16 @@ class AgentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // return $request->all();
+        $request->validate([
+        'full_name'=>'required',
+        'email'=>'required|email|unique:agents',
+        'password'=>'required|confirmed|min:3',
+        'country_code'=>'required',
+        'phone'=>'required',
+        'image'=> 'image|mimes:jpeg,jpg,png,gif',
+        'status'=> 'required',
+        ]);
     }
 
     /**
