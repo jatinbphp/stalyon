@@ -42,7 +42,6 @@ class AgentController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request->all();
         $request->validate([
         'full_name'=>'required',
         'email'=>'required|email|unique:agents',
@@ -52,6 +51,19 @@ class AgentController extends Controller
         'image'=> 'image|mimes:jpeg,jpg,png,gif',
         'status'=> 'required',
         ]);
+        $input = $request->all();
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('images/agents'), $imageName);
+            $input['image'] = 'images/agents/'.$imageName; 
+        }
+        if(isset($input))
+        {
+            Agent::create($input);
+            \Session::flash('success', 'Agent registered successfully!');
+        }
+        return redirect()->route('agents.index');
     }
 
     /**
