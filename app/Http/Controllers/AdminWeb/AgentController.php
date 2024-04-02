@@ -22,6 +22,15 @@ class AgentController extends Controller
                 ->editColumn('created_at', function($row){
                     return $row['created_at']->format('Y-m-d h:i:s');
                 })
+                ->editColumn('status', function($row){
+                    $row['table_name'] = 'agents';
+                    return view('admin.common.status-buttons', $row);
+                })
+                ->addColumn('action', function($row){
+                    $row['section_name'] = 'agent';
+                    $row['section_title'] = 'Agents';
+                    return view('admin.common.action-buttons', $row);
+                })
                 ->make(true);
         }
         return view('admin.user.index', $data);
@@ -56,7 +65,7 @@ class AgentController extends Controller
             $image = $request->file('image');
             $imageName = time().'.'.$image->getClientOriginalExtension();
             $image->move(public_path('images/agents'), $imageName);
-            $input['image'] = 'images/agents/'.$imageName; 
+            $input['image'] = 'images/agents/'.$imageName;
         }
         if(isset($input))
         {

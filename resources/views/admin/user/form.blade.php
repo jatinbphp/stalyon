@@ -22,7 +22,7 @@
                 </span>
             @endif
         </div>
-    </div>    
+    </div>
 </div>
 
 <div class="row">
@@ -51,7 +51,7 @@
     </div>
 </div>
 
-<div class="row">                        
+<div class="row">
     <div class="col-md-6">
         <div class="form-group{{ $errors->has('country_code') ? ' has-error' : '' }}">
             <label class="control-label" for="country_code">Country Code :<span class="text-red">*</span></label>
@@ -87,9 +87,9 @@
                 </div>
 
                 @if(!empty($block['image']) && file_exists($block['image']))
-                    <img src="{{asset($block['image'])}}" alt="Category Image" style="border: 1px solid #ccc;margin-top: 5px;" width="150" id="DisplayImage">
+                    <img src="{{asset($block['image'])}}" alt="Agent Image" style="border: 1px solid #ccc;margin-top: 5px;" width="150" id="DisplayImage">
                 @else
-                    <img src="{{url('assets/admin/dist/img/no-image.png')}}" alt="Category Image" style="border: 1px solid #ccc;margin-top: 5px;padding: 20px;" width="150" id="DisplayImage">
+                    <img src="{{url('assets/admin/dist/img/no-image.png')}}" alt="Agent Image" style="border: 1px solid #ccc;margin-top: 5px;padding: 20px;" width="150" id="DisplayImage">
                 @endif
 
                 @if ($errors->has('image'))

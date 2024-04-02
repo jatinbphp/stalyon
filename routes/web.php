@@ -36,4 +36,8 @@ Route::get('logout', [AdminAuthController::class, 'adminLogout'])->name('admin.l
 
 //user
 Route::resource('agents', AgentController::class);
+
+/*Common*/
+Route::post('common/changestatus', [CommonController::class,'changeStatus'])->name('common.changestatus');
+
 });

@@ -44,6 +44,7 @@
                                     <th>Email</th>
                                     <th>Status</th>
                                     <th>Date Created</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -76,9 +77,9 @@
             {data: 'full_name', name: 'full_name'},
             {data: 'phone',  name: 'phone'},
             {data: 'email',  name: 'email'},
-            {data: 'status', "width": "10%",  name: 'status', orderable: false},
-            {data: 'created_at', "width": "15%", name: 'created_at'},
-            // {data: 'action', "width": "12%",  name: 'action', orderable: false},
+            {data: 'status', "width": "12%",  name: 'status', orderable: true},
+            {data: 'created_at', "width": "20%", name: 'created_at'},
+            {data: 'action', "width": "12%",  name: 'action', orderable: false},
         ],
         "order": [[0, "DESC"]]
     });
