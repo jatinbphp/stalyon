@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminWeb\AdminAuthController;
 use App\Http\Controllers\AdminWeb\DashboardController;
 use App\Http\Controllers\AdminWeb\AgentController;
+use App\Http\Controllers\AdminWeb\CommonController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,7 +21,7 @@ Route::get('/', function () {
 });
 
 Route::get('/test', function () {
-    return view('admin.auth.admin_login');
+    return view('admin.user.edit');
 });
 
 

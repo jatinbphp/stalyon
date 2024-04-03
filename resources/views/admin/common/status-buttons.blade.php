@@ -47,3 +47,50 @@
         ]) !!}
     </div>
 @endif
+
+
+@section('jquery')
+<script>
+   
+        $('.assign_unassign').on('click', function(event){
+
+            event.preventDefault(); // Prevent default form submission
+
+            var url = $(this).data('url');
+            var id = $(this).data('id');
+            var type = $(this).data('type');
+            var table_name = $(this).data('table_name');
+
+            $.ajax({
+                url: url,
+                type: "post",
+                data: {
+                    'id': id,
+                    'type': type,
+                    'table_name': table_name,
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(data){
+                    alert('success');
+                    l.stop(); // Stop Ladda spinner on success
+
+                    // Update UI based on response
+                    if (type == 'unassign') {
+                        $('#assign_remove_'+id).hide();
+                        $('#assign_add_'+id).show();
+                    } else {
+                        $('#assign_remove_'+id).show();
+                        $('#assign_add_'+id).hide();
+                    }
+                },
+                error: function(xhr, status, error){
+                    console.error(error); // Log any errors to the console
+                }
+            });
+        });
+ 
+     
+</script>
+@endsection

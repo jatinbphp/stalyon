@@ -14,7 +14,7 @@ class AgentController extends Controller
      */
     public function index(Request $request)
     {
-        $data['menu']= "Agent";
+        $data['menu']= "Agents";
         if ($request->ajax()) {
             $agent = Agent::all();
             return Datatables::of($agent)
@@ -27,7 +27,7 @@ class AgentController extends Controller
                     return view('admin.common.status-buttons', $row);
                 })
                 ->addColumn('action', function($row){
-                    $row['section_name'] = 'agent';
+                    $row['section_name'] = 'agents';
                     $row['section_title'] = 'Agents';
                     return view('admin.common.action-buttons', $row);
                 })
@@ -61,6 +61,7 @@ class AgentController extends Controller
         'status'=> 'required',
         ]);
         $input = $request->all();
+        $input['password']= \Hash::make($request->password);
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time().'.'.$image->getClientOriginalExtension();
@@ -86,9 +87,11 @@ class AgentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $data['menu'] = 'Agents';
+        $data['agents'] = Agent::where('id',$id)->first();
+        return view('admin.user.edit', $data);
     }
 
     /**
@@ -96,7 +99,29 @@ class AgentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        if(empty($request['password'])){
+            unset($request['password']);
+        }
+
+        $input = $request->all();
+        $input['password']= \Hash::make($request->password);
+
+        $agent = Agent::findorFail($id);
+
+        if($file = $request->file('image')){
+            if (!empty($agent['image'])) {
+                @unlink($agent['image']);
+            }
+
+            $image = $request->file('image');
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('images/agents'), $imageName);
+            $input['image'] = 'images/agents/'.$imageName;
+        }
+        $agent->update($input);
+
+        \Session::flash('success','Agent has been updated successfully!');
+        return redirect()->route('agents.index');
     }
 
     /**
